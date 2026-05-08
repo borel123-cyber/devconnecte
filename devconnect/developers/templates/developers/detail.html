@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow">
+    <div class="flex items-center space-x-4">
+        <div class="w-20 h-20 bg-gray-300 rounded-full"></div>
+        <div>
+            <h1 class="text-2xl font-bold">{{ profil.user.username }}</h1>
+            {% if profil.disponible %}
+                <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Disponible</span>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <h2 class="font-semibold">Bio :</h2>
+        <p class="text-gray-700">{{ profil.bio }}</p>
+    </div>
+
+    {% if profil.site_web %}
+    <div class="mt-2">
+        <h2 class="font-semibold">Site web :</h2>
+        <a href="{{ profil.site_web }}" class="text-blue-600 hover:underline">{{ profil.site_web }}</a>
+    </div>
+    {% endif %}
+
+    <div class="mt-4 text-gray-500 text-sm">
+        Membre depuis {{ profil.date_creation|date:"d/m/Y" }}
+    </div>
+
+    <a href="{% url 'liste_developpeurs' %}" class="inline-block mt-4 text-blue-600 hover:underline">← Retour à la liste</a>
+</div>
+{% endblock %}
