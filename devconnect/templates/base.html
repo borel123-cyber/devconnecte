@@ -7,17 +7,37 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100">
-    <header>
-        <nav>
-            <!-- Navbar à construire -->
-        </nav>
-    </header>
+    <!-- Barre de navigation -->
+    <nav class="bg-white shadow">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <!-- Logo / Nom du site -->
+            <a href="/" class="text-xl font-bold text-blue-600">devConnect</a>
+            
+            <!-- Liens selon l'état de connexion -->
+            <div class="flex items-center space-x-4">
+                {% if user.is_authenticated %}
+                    <span class="text-gray-700">Bonjour, <strong>{{ user.username }}</strong></span>
+                    <form method="post" action="{% url 'account_logout' %}" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                            Se déconnecter
+                        </button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'account_login' %}" class="text-blue-600 hover:underline">Connexion</a>
+                    <a href="{% url 'account_signup' %}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Inscription</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
 
+    <!-- Contenu principal -->
     <main class="container mx-auto py-8">
         {% block content %}
         {% endblock %}
     </main>
 
+    <!-- Pied de page -->
     <footer class="text-center py-4 text-gray-600">
         &copy; 2026 devConnect
     </footer>
