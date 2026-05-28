@@ -3,7 +3,16 @@
 {% block content %}
 <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow">
     <div class="flex items-center space-x-4">
-        <div class="w-20 h-20 bg-gray-300 rounded-full"></div>
+        <!-- Avatar -->
+        {% if profil.photo %}
+            <img src="{{ profil.photo.url }}" alt="{{ profil.user.username }}" 
+                 class="w-20 h-20 rounded-full object-cover">
+        {% else %}
+            <div class="w-20 h-20 bg-gray-300 rounded-full flex items-center justify-center text-gray-500 text-2xl font-bold">
+                {{ profil.user.username|slice:":1"|upper }}
+            </div>
+        {% endif %}
+
         <div>
             <h1 class="text-2xl font-bold">{{ profil.user.username }}</h1>
             {% if profil.disponible %}
@@ -24,28 +33,28 @@
     </div>
     {% endif %}
 
+    <div class="mt-4">
+        <h2 class="font-semibold">Compétences :</h2>
+        {% if profil.competences.all %}
+            <div class="flex flex-wrap gap-2 mt-2">
+                {% for nc in profil.competences.all %}
+                    <span class="px-3 py-1 text-sm rounded-full 
+                        {% if nc.niveau == 'DEBUTANT' %}bg-yellow-100 text-yellow-800
+                        {% elif nc.niveau == 'INTERMEDIAIRE' %}bg-blue-100 text-blue-800
+                        {% else %}bg-green-100 text-green-800{% endif %}">
+                        {{ nc.competence.nom }} 
+                        <span class="text-xs opacity-75">({{ nc.get_niveau_display }})</span>
+                    </span>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-gray-500 text-sm mt-1">Aucune compétence listée.</p>
+        {% endif %}
+    </div>
+
     <div class="mt-4 text-gray-500 text-sm">
         Membre depuis {{ profil.date_creation|date:"d/m/Y" }}
     </div>
-    
-    <div class="mt-4">
-    <h2 class="font-semibold">Compétences :</h2>
-    {% if profil.competences.all %}
-        <div class="flex flex-wrap gap-2 mt-2">
-            {% for nc in profil.competences.all %}
-                <span class="px-3 py-1 text-sm rounded-full 
-                    {% if nc.niveau == 'DEBUTANT' %}bg-yellow-100 text-yellow-800
-                    {% elif nc.niveau == 'INTERMEDIAIRE' %}bg-blue-100 text-blue-800
-                    {% else %}bg-green-100 text-green-800{% endif %}">
-                    {{ nc.competence.nom }} 
-                    <span class="text-xs opacity-75">({{ nc.get_niveau_display }})</span>
-                </span>
-            {% endfor %}
-        </div>
-    {% else %}
-        <p class="text-gray-500 text-sm mt-1">Aucune compétence listée.</p>
-    {% endif %}
-</div>
 
     <a href="{% url 'liste_developpeurs' %}" class="inline-block mt-4 text-blue-600 hover:underline">← Retour à la liste</a>
 </div>
