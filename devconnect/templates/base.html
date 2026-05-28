@@ -16,7 +16,12 @@
             <!-- Liens selon l'état de connexion -->
             <div class="flex items-center space-x-4">
                 {% if user.is_authenticated %}
-                    <span class="text-gray-700">Bonjour, <strong>{{ user.username }}</strong></span>
+                    <!-- Lien vers l'édition du profil -->
+                    <a href="{% url 'modifier_profil' %}" class="text-gray-700 hover:text-blue-600 transition">Mon Profil</a>
+                    <a href="{% url 'gerer_competences' %}" class="text-gray-700 hover:text-blue-600 transition">Compétences</a>
+                    <!-- Message de bienvenue -->
+                    <span class="text-gray-700"><strong>{{ user.username }}</strong></span>
+                    <!-- Déconnexion -->
                     <form method="post" action="{% url 'account_logout' %}" class="inline">
                         {% csrf_token %}
                         <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">

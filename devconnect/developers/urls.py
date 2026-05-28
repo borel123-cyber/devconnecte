@@ -9,5 +9,7 @@ urlpatterns = [
     path('profil/<int:pk>/', views.detail_profil, name='detail_profil'),
     path('home/', views.home, name='home'),
     path('google/login/', views.google_login, name='google_login'),
-    
+    path('profil/modifier/', views.modifier_profil, name='modifier_profil'),
+    path('competences/', views.gerer_competences, name='gerer_competences'),
+    path('competences/retirer/<int:competence_id>/', views.retirer_competence, name='retirer_competence'),
 ]

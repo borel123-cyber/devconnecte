@@ -11,3 +11,26 @@ class Profil(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+class Competence(models.Model):
+    nom = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.nom
+
+
+class NiveauCompetence(models.Model):
+    NIVEAUX = [
+        ('DEBUTANT', 'Débutant'),
+        ('INTERMEDIAIRE', 'Intermédiaire'),
+        ('AVANCE', 'Avancé'),
+    ]
+    profil = models.ForeignKey(Profil, on_delete=models.CASCADE, related_name='competences')
+    competence = models.ForeignKey(Competence, on_delete=models.CASCADE)
+    niveau = models.CharField(max_length=20, choices=NIVEAUX, default='DEBUTANT')
+
+    class Meta:
+        unique_together = ['profil', 'competence']  # Un même développeur ne peut pas ajouter deux fois la même compétence
+
+    def __str__(self):
+        return f"{self.profil.user.username} - {self.competence.nom} ({self.get_niveau_display()})"
